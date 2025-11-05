@@ -11,10 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: jenkins-demo
+      IMAGE_REPO: ${{ secrets.DOCKER_USERNAME }}/demoassestment
       IMAGE_TAG: latest
-      DEPLOYMENT_FILE: deployment.yaml
-      IMAGE_REPO: ${{ secrets.DOCKER_USERNAME }}/jenkins-demo
+      DEPLOYMENT_FILE: assestment-2.yaml
 
     steps:
       - name: Checkout repository
@@ -30,10 +29,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t sethuk24/demoassestment:latest .
+        run: docker build -t $IMAGE_REPO:$IMAGE_TAG .
 
       - name: Push Docker image
-        run: docker push sethuk24/demoassestment:latest
+        run: docker push $IMAGE_REPO:$IMAGE_TAG
 
       - name: Setup kubectl
         run: |
@@ -42,6 +41,6 @@ jobs:
 
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f assestment-2.yaml
+          kubectl apply -f $DEPLOYMENT_FILE
           kubectl rollout status deployment/demo-app
           kubectl get svc
