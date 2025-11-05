@@ -13,8 +13,8 @@ spec:
     spec:
       containers:
       - name: demo-app
-        image: demo-app:latest
-        imagePullPolicy: Never
+        image: sethuk24/demoassestment:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
 ---
