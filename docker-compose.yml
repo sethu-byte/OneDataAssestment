@@ -1,0 +1,23 @@
+services:
+  app:
+    build: ./app
+    container_name: metrics-app
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
