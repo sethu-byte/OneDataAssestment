@@ -32,7 +32,7 @@ jobs:
         run: docker build -t sethuk24/demoassestment:latest .
 
       - name: Push Docker image
-        run: docker push $IMAGE_REPO:$IMAGE_TAG
+        run: docker push sethuk24/demoassestment:latest
 
       - name: Setup kubectl
         run: |
