@@ -1,0 +1,20 @@
+{
+  "name": "onedata-sample-app",
+  "version": "1.0.0",
+  "description": "Sample Node.js app with Redis integration for OneData Infrastructure Automation",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "redis": "^3.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
