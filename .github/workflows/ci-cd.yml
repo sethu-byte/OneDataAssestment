@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_REPO: ${{ secrets.DOCKER_USERNAME }}/demoassestment
+      IMAGE_NAME: demoassestment
       IMAGE_TAG: latest
       DEPLOYMENT_FILE: assestment-2.yaml
+      IMAGE_REPO: sethuk24/demoassestment
 
     steps:
       - name: Checkout repository
@@ -28,19 +29,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
-        run: docker build -t sethuk24/demoassestment:latest .
-
-      - name: Push Docker image
-        run: docker push sethuk24/demoassestment:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}
 
       - name: Setup kubectl
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
 
-      - name: Deploy to Minikube
+      - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f assestment-2.yaml
+          kubectl apply -f ${{ env.DEPLOYMENT_FILE }}
           kubectl rollout status deployment/demo-app
           kubectl get svc
